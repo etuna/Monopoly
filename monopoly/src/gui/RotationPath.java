@@ -1,0 +1,81 @@
+package gui;
+
+/*
+* TITLE: Program 7.1a
+*
+* @(#)Path 2002/07/21
+* @author Charles W. Kann III
+*
+* Copyright (c) 2002 CRC Press
+* All Rights Reserved.
+*
+* Permission to use, copy, modify, and distribute this
+* software and its documentation for NON-COMMERCIAL purposes
+* and without fee is hereby granted provided that this
+* copyright notice appears in all copies.
+*
+* THE AUTHOR MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE
+* SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR
+* NON-INFRINGEMENT. THE AUTHOR SHALL NOT BE LIABLE FOR ANY DAMAGES
+* SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+* DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+*/
+
+
+import java.awt.Point;
+
+/**
+*  Purpose:    The Path class defines a starting position, stopping
+*              position, and number of steps.  It then calculates the
+*              next position that would occur along the path.  It is
+*		first used in Program 7.1, but is used in all the 
+*		animation examples, and is an essential part to the 
+*		final aniamtor.
+*		
+*		Note that in this case it is a simple straight line, 
+*		but the path could be a spline curve, or Bessel 
+*		function, etc.
+*/
+
+public class RotationPath implements Path2 {
+   double startR, endR;
+   int steps;
+   int currentStep = -1;      // This makes the first step 0
+   double deltaR;
+
+   /** Constructor Stores the points, and builds the information
+    *  needed to construct the next point.  Note that for a path we
+    *  need the initial point for the path (X1, Y1), the final point
+    *  for the path (X2, Y2), and the number of steps in the path (
+    *  numSteps).
+    */
+   public RotationPath(double R1, double R2, int numSteps) {
+       startR = R1;
+       endR = R2;
+       steps = numSteps;
+       deltaR = (R2 - R1) / steps;
+       
+   }
+
+   /** 
+    *  Check to see if the path has MoreSteps
+    */
+   public boolean hasMoreSteps() {
+       if (currentStep > steps)
+           return false;
+       return true;
+   }
+
+   /** 
+    *  Get the next position.  If the path has no more steps, return
+    *  the current position.
+    */
+   public double nextRotation() {
+       currentStep++;
+       if (currentStep > steps)
+           return endR;
+       return startR + (deltaR * currentStep);
+   }
+}
